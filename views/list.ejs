@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+    <form action="/add" method="POST" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+            <label for="date" class="col-md-3 control-label">Email</label>
+            <div class="col-md-9">
+                <!-- <input type="text" class="form-control" name="Date" placeholder="Enter Date"> -->
+                <input type="email" class="form-control" name="email" placeholder="email" value="<%= title%>" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sDate" class="col-md-3 control-label">Start Date</label>
+            <div class="col-md-9">
+                <!-- <input type="text" class="form-control" name="Date" placeholder="Enter Date"> -->
+                <input type="date" class="form-control" name="sDate" placeholder="YYYY-MM-DD">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="eDate" class="col-md-3 control-label">End Date</label>
+            <div class="col-md-9">
+                <!-- <input type="text" class="form-control" name="Date" placeholder="Enter Date"> -->
+                <input type="date" class="form-control" name="eDate" placeholder="YYYY-MM-DD">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title" class="col-md-3 control-label">Title</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="title" placeholder="Enter Title">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description" class="col-md-3 control-label">Description</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" name="description" placeholder="Description">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lType" class="col-md-3 control-label">Leave Type</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" list="status" name="lType" placeholder="Paid/unpaid">
+                <datalist name="status" id="status">
+                    <option>Paid</option>
+                    <option>Unpaid</option>
+                  </datalist>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="halfDay" class="col-md-3 control-label">Half Day</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" list="halfDay" name="halfDay" placeholder="yes/no">
+                <datalist name="halfDay" id="halfDay">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </datalist>
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- Button -->
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit"class="btn btn-primary">
+            </div>
+        </div>
+        
+    </form>
+</div> 
+<a href="login.html">logout</a>
+<br>
+<br>
+    <form class="form-inline" action="/usersearch" method="post">
+        <div class="form-group">
+            
+            <input type="hidden" class="form-control" id="email"  name="email" value="<%= title%>">
+          </div>
+        <div class="form-group">
+          <label for="From">From:</label>
+          <input type="date" class="form-control" id="From"  name="From">
+        </div>
+        <div class="form-group">
+          <label for="To">To:</label>
+          <input type="date" class="form-control" id="To"  name="To">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+        
+      </form>
+      <br>
+
+
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr >
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <!-- <th>task Progress</th> -->
+                            <th>Number of Leave</th>
+                            <th>Status</th>
+                            <th>Leave Type</th>
+                            <th>Half Day</th>
+                            
+                          </tr>
+                        </thead>
+                        <% record.forEach(function(row) {%>
+                            <% if  (row.status=="Cancelled") { %>
+                                <tr style="color:red">
+                                    <td><%= row.sDate %></td>
+                                    <td><%= row.eDate %></td>
+                                    <td><%= row.title %></td>
+                                    <td><%= row.description %></td>    
+                                    <td><%= row.noLeave %></td>
+                                    <td><%= row.status %></td>
+                                    <td><%= row.lType %></td>
+                                    <td><%= row.halfDay %></td>
+                                    <!-- <td>
+                                    <a href="/edit/<%= row._id%>"><i class="fa fa-edit" style="font: size 20px; color: black; margin-left: 10px;"></i></a>
+                                    <a onclick="fun('/delete/<%= row._id%>')"><i class="fa fa-trash" style="font-size:20px; color: black; margin-left: 10px;"></i></a>
+                                    </td> -->
+                                </tr>
+                                <% } else if(row.status=="Approved"){ %>
+                                    <tr style="color:green">
+                                        <td><%= row.sDate %></td>
+                                        <td><%= row.eDate %></td>
+                                        <td><%= row.title %></td>
+                                        <td><%= row.description %></td>    
+                                        <td><%= row.noLeave %></td>
+                                        <td><%= row.status %></td>
+                                        <td><%= row.lType %></td>
+                                        <td><%= row.halfDay %></td>
+                                        <!-- <td>
+                                        <a href="/edit/<%= row._id%>"><i class="fa fa-edit" style="font: size 20px; color: black; margin-left: 10px;"></i></a>
+                                        <a onclick="fun('/delete/<%= row._id%>')"><i class="fa fa-trash" style="font-size:20px; color: black; margin-left: 10px;"></i></a>
+                                        </td> -->
+                                    </tr>
+                                    <% }else{ %>
+                                        <tr style="color:DodgerBlue">
+                                            <td><%= row.sDate %></td>
+                                        <td><%= row.eDate %></td>
+                                        <td><%= row.title %></td>
+                                        <td><%= row.description %></td>    
+                                        <td><%= row.noLeave %></td>
+                                        <td><%= row.status %></td>
+                                        <td><%= row.lType %></td>
+                                        <td><%= row.halfDay %></td>
+                                        <% } %>
+                        <%})%>    
+                      </table>
+ 
+  </body>
+</html>
